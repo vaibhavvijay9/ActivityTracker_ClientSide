@@ -8,3 +8,9 @@
     <router-view/>
   </div>
 </template>
+
+<style>
+  #app {
+      background-image: url('./assets/background.png');
+  }
+</style>

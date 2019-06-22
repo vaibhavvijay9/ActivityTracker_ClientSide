@@ -4,7 +4,7 @@
     <div class="title">Activity Tracker</div>
     
     <div class="z-depth-5 login-card">
-      <p class="login-title">Login</p>
+      <p class="login-title">Sign-Up</p>
       <form class="">
       <div class="">
         <div class="input-field">
@@ -15,9 +15,7 @@
           <input id="icon_telephone" type="tel" class="validate">
           <label for="icon_telephone">Password</label>
         </div>
-        <p><a href="#" class="forgot-password-link">Forgot your password?</a></p>
-        <a class="waves-effect waves-light btn z-depth-3 login-button">LOGIN</a>
-        <p class="sign-up-link">Don't have account?  <a href="#">Sign up</a></p>
+        <a class="waves-effect waves-light btn z-depth-3 login-button">Create Account</a>
       </div>
     </form>
     </div>
@@ -58,7 +56,7 @@
 }
 
 .login-button{
-  width: 250px;
+  width: 200px;
   border-radius: 15px;
   background-color: #3B4FFF;
 }
@@ -78,7 +76,7 @@
 
     .login-card{
       width: 350px;
-      height: 60vh;
+      height: 50vh;
     }
 }
 </style>
