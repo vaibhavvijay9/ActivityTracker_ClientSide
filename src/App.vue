@@ -11,6 +11,6 @@
 
 <style>
   #app {
-      background-image: url('./assets/background.png');
+      background-image: url('./assets/background.jpg');
   }
 </style>

@@ -31,19 +31,46 @@
       </div>
       <div>
         <!-- <a class="waves-effect waves-light btn z-depth-3 add-task-button">Add new task</a> -->
-        <a class="btn-floating waves-effect waves-light" style="background-color: #3B4FFF;"><i class="material-icons">add</i></a>
+        <a class="btn-floating waves-effect waves-light add-button" v-on:click="modalOpen = true">
+          <i class="material-icons">add</i>
+        </a>
       </div>
       <div class="footer">
         <a>Day</a>
         <a>Week</a>
         <a>Month</a>
       </div>
+      <!-- Modal Structure -->
+      <div v-bind:class="{ 'openPopUp': modalOpen }" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </div>
 </template>
+<script>
+export default {
+  name: 'app',
+  data: function() {
+    return {
+      modalOpen: false
+    }
+  }
+}
+</script>
 
 <style>
+.openPopUp{
+  visibility: visible;
+  opacity: 1;
+}
+
 /* main start*/
 .task-summary{
   font-size: 0.8rem;
@@ -121,9 +148,12 @@
 
 }
 
-.add-task-button{
+/* .add-task-button{
   width: 250px;
   border-radius: 15px;
+  background-color: #3B4FFF;
+} */
+.add-button{
   background-color: #3B4FFF;
 }
 
