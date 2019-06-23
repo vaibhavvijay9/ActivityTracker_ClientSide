@@ -31,7 +31,7 @@
       </div>
       <div>
         <!-- <a class="waves-effect waves-light btn z-depth-3 add-task-button">Add new task</a> -->
-        <a class="btn-floating waves-effect waves-light add-button" v-on:click="modalOpen = true">
+        <a class="btn-floating waves-effect waves-light add-button" @click="modalOpen = true">
           <i class="material-icons">add</i>
         </a>
       </div>
@@ -41,13 +41,13 @@
         <a>Month</a>
       </div>
       <!-- Modal Structure -->
-      <div v-bind:class="{ 'openPopUp': modalOpen }" class="modal">
+      <div v-if="modalOpen" class="modal openPopUp">
           <div class="modal-content">
             <h4>Modal Header</h4>
             <p>A bunch of text</p>
           </div>
           <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"  @click="modalOpen = false">Agree</a>
           </div>
         </div>
       </div>
