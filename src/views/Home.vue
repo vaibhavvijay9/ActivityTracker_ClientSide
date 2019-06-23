@@ -1,57 +1,79 @@
 <template>
-  <div class="page-content">
+  <div class="h-screen p-5">
+
+    <div class="text-3xl text-white mb-5 font-medium">Activity Tracker</div>
     
-    <div class="title">Activity Tracker</div>
-    
-    <div class="z-depth-5 activity-card">
-      <div class="header">
-        <div class="header-user">
+    <div class="activity-card shadow-2xl text-center bg-gray-200 m-2 md:w-1/4 md:w-1/4 md:mx-auto relative">
+      
+      <div class="bg-blue-500 rounded-b-lg p-1 text-white">
+        <div class="flex justify-between items-center text-xl px-2 h-8">
           <span>Hi Vaibhav</span>
-          <i class="material-icons">power_settings_new</i>
+          <i class="material-icons cursor-pointer">power_settings_new</i>
         </div>
-        <div class="header-nav">
-          <a>Yesterday</a>
-          <a>Today</a>
-          <a>Tomorrow</a>
+        <div class="flex justify-around items-center h-10">
+          <a class="text-sm cursor-pointer">Yesterday</a>
+          <a class="text-sm cursor-pointer">Today</a>
+          <a class="text-sm cursor-pointer">Tomorrow</a>
         </div>
       </div>
-      <div class="main">
-        <p class="task-summary">You have <span class="task-count">5 task:</span></p>
-        <div class="task-item">
-            <label>
-              <input type="checkbox" class="filled-in"/>
-              <span style="display:block">Call to John</span>
-              <span class="task-time">8:00</span>
+      
+      <div class="m-2">
+        <p class="text-xs font-medium">You have <span class="text-blue-600">5 task:</span></p>
+        <div class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
+            <label class="block">
+              <input class="mr-2 leading-tight" type="checkbox">
+              <span class="text-sm">Send me your newsletter!</span>
             </label>
             <span>
-              <i class="material-icons task-action-icon">edit</i>
-              <i class="material-icons task-action-icon">delete</i>
+              <a><i class="material-icons cursor-pointer text-blue-600">edit</i></a>
+              <a><i class="material-icons cursor-pointer text-blue-600">delete</i></a>
             </span>
         </div>
       </div>
-      <div>
-        <!-- <a class="waves-effect waves-light btn z-depth-3 add-task-button">Add new task</a> -->
-        <a class="btn-floating waves-effect waves-light add-button" @click="modalOpen = true">
-          <i class="material-icons">add</i>
-        </a>
+      
+      <div class="absolute bottom-0 mb-16 ml-16">
+        <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded-full" @click="modalOpen = true">Add New Task</button>
       </div>
-      <div class="footer">
-        <a>Day</a>
-        <a>Week</a>
-        <a>Month</a>
+
+      <div class="bg-white rounded-t-lg flex justify-around items-center h-12 absolute bottom-0 left-0 right-0">
+        <a class="text-sm cursor-pointer">Day</a>
+        <a class="text-sm cursor-pointer">Week</a>
+        <a class="text-sm cursor-pointer">Month</a>
       </div>
-      <!-- Modal Structure -->
-      <div v-if="modalOpen" class="modal openPopUp">
-          <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+
+    </div>  
+      
+      <!-- Add Task pop-up START-->
+      <div v-if="modalOpen" class="fixed inset-0 invisible opacity-0 openPopUp">
+        <div class="mx-auto my-48 bg-white rounded w-3/4 md:w-1/4 relative shadow-2xl">
+          <div class="bg-blue-500 rounded-b-lg p-1 text-white">
+            <div class="flex items-center justify-between text-xl px-2 h-10">
+              <span>New Task</span>
+              <i class="material-icons cursor-pointer" @click="modalOpen = false">close</i>
+            </div>
           </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat"  @click="modalOpen = false">Agree</a>
+          <div class="mt-4 p-2 flex justify-center">
+              <form name="myForm">
+                  <div class="flex items-center mt-3 py-1">
+                    <i class="material-icons">text_format</i>
+                    <input name="newEventText" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Add your task">
+                  </div>
+                  <div class="flex items-center mt-3 py-1 ">
+                    <i class="material-icons">date_range</i>
+                    <input name="newEventText" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" type="date">
+                  </div>
+                  <!-- <div class="flex items-center mt-3 py-1 ">
+                    <i class="material-icons">access_time</i>
+                    <input ng-model="newEventText" name="newEventText" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" type="date-time" placeholder="Add your task">
+                  </div> -->
+                  <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 mt-4 rounded-full" @click="modalOpen = false">Add New Task</button>
+                  <!-- <input ng-disabled="!newEventText" id="popup-add-button" class="w-2/5 self-center mt-4 md:w-auto flex-shrink-0 text-sm border-4 text-white py-1 px-4 rounded" type="submit" value="Add"> -->
+              </form>
           </div>
         </div>
       </div>
-    </div>
+      <!-- Add Task pop-up END-->
+  </div>
 
 </template>
 <script>
@@ -71,106 +93,8 @@ export default {
   opacity: 1;
 }
 
-/* main start*/
-.task-summary{
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.task-count{
-  color: #3D51FF;
-}
-
-.task-item{
-  background-color: white;
-  margin: 2%;
-  padding: 1.8%;
-  border-radius: 5px;
-  text-align: left;
-  display:flex;
-  justify-content:space-between;
-}
-.task-time{
-  padding-left: 35%;
-}
-
-.task-action-icon{
-  color: #8390ff; /*7180ff*/
-}
-
-/* main end */
-
-.page-content{
-  height: 100vh;
-  padding: 2%;
-  /* background-color: #F2F3F9; */
-}
-
-.title{
-  color: white;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
 .activity-card{
-  text-align: center;
-  background-color: #ECEEFF;
-  margin: 2%;
-  height: 80vh;
-  display: grid;
-  grid-template-rows: 15vh auto 8vh 10vh;
-}
-
-.header{
-  background-color: #3D51FF;
-  border-radius: 0px 0px 20px 20px;
-  padding: 1%;
-  color: white;
-}
-
-.header-user{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50%;
-  font-size: 1.5rem;
-  padding: 0 2%;
-}
-
-.header-nav{
-  height: 50%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.main{
-
-}
-
-/* .add-task-button{
-  width: 250px;
-  border-radius: 15px;
-  background-color: #3B4FFF;
-} */
-.add-button{
-  background-color: #3B4FFF;
-}
-
-.footer{
-  background-color: #DCDDE3;
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-@media screen and (min-width: 769px) {
-    .activity-card{
-      width: 350px;
-      height: 85vh;
-      margin: 0 auto;  
-    }
+  height: 85vh;
 }
 </style>
 
