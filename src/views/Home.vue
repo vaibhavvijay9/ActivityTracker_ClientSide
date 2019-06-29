@@ -45,7 +45,7 @@
       
       <!-- Add Task pop-up START-->
       <div v-if="modalOpen" class="fixed inset-0 invisible opacity-0 openPopUp">
-        <div class="mx-auto my-48 bg-white rounded w-3/4 md:w-1/4 relative shadow-2xl">
+        <div class="mx-auto my-48 bg-white rounded w-3/4 md:w-1/5 relative shadow-2xl">
           <div class="bg-blue-500 rounded-b-lg p-1 text-white">
             <div class="flex items-center justify-between text-xl px-2 h-10">
               <span>New Task</span>
@@ -78,11 +78,23 @@
 </template>
 <script>
 export default {
-  name: 'app',
-  data: function() {
-    return {
+  name: 'home',
+  data:  function(){
+    return{
       modalOpen: false
-    }
+    }},
+  mounted() {
+      const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/gettask/week';
+      const auth = {
+        headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} 
+      }
+      this.$http.get(url,auth)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
   }
 }
 </script>
