@@ -15,7 +15,7 @@
         </div>
         <p><a href="#" class="float-left py-4 text-sm text-blue-600">Forgot your password?</a></p>
         <input type="submit" value="LOGIN" class="w-56 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded-full">
-        <p class="pt-4 text-sm">Don't have account?  <a href="#" class="text-blue-600">Sign up</a></p>
+        <p class="pt-4 text-sm">Don't have account?  <router-link class="text-blue-600" to="/signUp">Sign Up</router-link></p>
       </div>
     </form>
     </div>
@@ -48,7 +48,7 @@ export default {
       .catch(function (error) {
           console.log(error);
       });
+    }
   }
-}
 }
 </script>
