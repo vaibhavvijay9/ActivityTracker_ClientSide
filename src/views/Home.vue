@@ -7,7 +7,7 @@
       
       <div class="bg-blue-500 rounded-b-lg p-1 text-white">
         <div class="flex justify-between items-center text-xl px-2 h-8">
-          <span>Hi {{name}}</span>
+          <span>Hi {{userFirstName}}</span>
           <i class="material-icons cursor-pointer">power_settings_new</i>
         </div>
         <div class="flex justify-around items-center h-10">
@@ -41,17 +41,17 @@
             </div>
           </div>
           <div class="mt-4 p-2 flex justify-center">
-              <form name="myForm">
+              <form @submit="addTask">
                   <div class="flex items-center mt-3 py-1">
                     <i class="material-icons">text_format</i>
-                    <input name="newEventText" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Add your task">
+                    <input type="text" v-model="taskForm.taskDescription" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" placeholder="Add your task">
                   </div>
                   <div class="flex items-center mt-3 py-1 ">
                     <i class="material-icons">date_range</i>
-                    <input name="newEventText" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none" type="date">
+                    <input type="date" v-model="taskForm.taskDate" required class="border-b border-b-2 border-blue-500 md:w-3/4 appearance-none text-gray-700 ml-2 py-1 px-2 leading-tight focus:outline-none">
                   </div>
-                  <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 mt-4 rounded-full" @click="modalOpen = false">Add New Task</button>
-                  <!-- <input ng-disabled="!newEventText" id="popup-add-button" class="w-2/5 self-center mt-4 md:w-auto flex-shrink-0 text-sm border-4 text-white py-1 px-4 rounded" type="submit" value="Add"> -->
+                  <button type="button" v-bind:disabled="taskForm.taskDescription === ''" class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 mt-4 rounded-full" @click="modalOpen = false">Add New Task</button>
+                  <!-- added type="button" to resolve the error : form submission canceled because the form is not connected -->
               </form>
           </div>
         </div>
@@ -66,9 +66,12 @@ export default {
   data:  function(){
     return{
       modalOpen: false,
-      name: ""
-    }}
-    ,
+      userFirstName: "",
+      taskForm : {
+        taskDescription: "",
+        taskDate: ""
+      }
+    }},
   mounted() {
       const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/user/getuser';
       const auth = {
@@ -76,12 +79,38 @@ export default {
       }
       this.$http.get(url,auth)
       .then(response => {
-        this.name = response.data.name.split(" ")[0]
+        this.userFirstName = response.data.name.split(" ")[0]
       })
       .catch(function (error) {
           console.log(error);
       });
-  }
+  },
+  methods: {
+        addTask : function(){
+          console.log('at start');
+            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/addtask';
+            
+            const data = this.taskForm;
+            
+            const auth = {
+                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+            }
+
+            console.log("inside addTask");
+            console.log(data);
+            
+            // this.$http.post(url, data, auth)
+            //     .then(response => {
+            //         console.log(response.data);
+            //         console.log(this.tasks.indexOf(taskId));
+            //         this.tasks.splice(this.tasks.indexOf(taskId), 1);
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     }); 
+            // }
+        }
+}
 }
 </script>
 
@@ -95,4 +124,3 @@ export default {
   height: 85vh;
 }
 </style>
-

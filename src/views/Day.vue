@@ -48,7 +48,10 @@ export default {
             }
             this.$http.delete(url, auth)
                 .then(response => {
-                    console.log(response.data)
+                    console.log(response.data);
+                    console.log(taskId);
+                    console.log(this.tasks.indexOf(taskId));
+                    this.tasks.splice(this.tasks.indexOf(taskId), 1);
                 })
                 .catch(function (error) {
                     console.log(error);
