@@ -43,6 +43,7 @@ export default {
       }
       this.$http.post(url, data,auth)
       .then(response => {
+        // $this.$route.push({name:"home"});
         console.log(response);
       })
       .catch(function (error) {
