@@ -20,9 +20,9 @@
       <router-view></router-view>
       
       <div class="bg-white rounded-t-lg flex justify-around items-center h-12 absolute bottom-0 left-0 right-0">
-        <router-link class="text-sm cursor-pointer" to="/home/day">Day</router-link>
         <router-link class="text-sm cursor-pointer" to="/home/week">Week</router-link>
         <router-link class="text-sm cursor-pointer" to="/home/month">Month</router-link>
+        <router-link class="text-sm cursor-pointer" to="/home/all">All</router-link>
       </div>
 
     </div>  

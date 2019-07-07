@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="m-2">
+    <div class="m-2 overflow-auto h-64">
         <p class="text-xs font-medium">You have <span class="text-blue-600">{{tasks.length}} task:</span></p>
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
@@ -71,7 +71,7 @@ export default {
         taskDescription: "",
         taskDate: ""
       },
-      newTask: {},
+      //newTask: {},
       currentTask: {}
     }},
   watch : {
@@ -119,14 +119,15 @@ export default {
             this.$http.post(url, data, auth)
                 .then(response => {
                     console.log(response.data);
-                    this.newTask= {
-                      taskcompleted: false,
-                      taskDate: this.taskForm.taskDate,
-                      taskDescription: this.taskForm.taskDescription, 
-                      taskId: "",
-                      username: ""
-                    };
-                    this.tasks.push(this.newTask);
+                    // this.newTask= {
+                    //   taskcompleted: false,
+                    //   taskDate: this.taskForm.taskDate,
+                    //   taskDescription: this.taskForm.taskDescription, 
+                    //   taskId: "",
+                    //   username: ""
+                    // };
+                    // this.tasks.push(this.newTask);
+                    this.getTasks()
                     this.taskForm.taskDescription = "";
                     this.taskForm.taskDate = "";
                 })
@@ -141,11 +142,12 @@ export default {
             }
             this.$http.delete(url, auth)
                 .then(response => {
-                    console.log(response.data);
-                    console.log(taskId);
-                    console.log(taskId,this.tasks.filter(task=>task.taskId!=taskId))
-                    this.tasks= this.tasks.filter(task=>task.taskId!==taskId)
-                    console.log(this.tasks,taskId)
+                    // console.log(response.data);
+                    // console.log(taskId);
+                    // console.log(taskId,this.tasks.filter(task=>task.taskId!=taskId))
+                    // this.tasks= this.tasks.filter(task=>task.taskId!==taskId)
+                    // console.log(this.tasks,taskId)
+                    this.getTasks()
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -170,6 +172,7 @@ export default {
                     console.log(response.data);
                     this.modalOpen = false;
                     this.addOperation = true;
+                    this.getTasks()
                 })
                 .catch(function (error) {
                     console.log(error);
