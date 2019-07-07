@@ -4,7 +4,7 @@
         <p class="text-xs font-medium">You have <span class="text-blue-600">{{tasks.length}} task:</span></p>
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
-                <input class="mr-2 leading-tight" type="checkbox" v-model=task.completed>
+                <input class="mr-2 leading-tight" type="checkbox" v-model=task.completed @click="updateTaskStatus(task)">
                 <span class="text-sm">{{task.taskDescription}}</span>
             </label>
             <span>
@@ -174,7 +174,28 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 }); 
+            },
+        updateTaskStatus : function(task){
+            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/updatetaskstatus';
+            const auth = {
+                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
             }
+            const data =  {
+                      taskId: task.taskId,
+                      taskDescription: "",
+                      taskDate: "",
+                      completed: !task.completed,
+                      username: ""
+                    }
+            
+            this.$http.put(url, data, auth)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
+    }
 }
 </script>
