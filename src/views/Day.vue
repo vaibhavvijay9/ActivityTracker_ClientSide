@@ -92,6 +92,10 @@ export default {
           this.addOperation = true
       }, 
       getTasks : function(){
+        if(localStorage.getItem("authTokenActivityTracker") == null){
+            console.log("is null")
+            this.$router.push({name:"login"});
+        }  
         console.log(this.$route.params.day);
         const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/gettask/' + this.$route.params.day;
         const auth = {

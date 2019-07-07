@@ -8,7 +8,7 @@
       <div class="bg-blue-500 rounded-b-lg p-1 text-white">
         <div class="flex justify-between items-center text-xl px-2 h-8">
           <span>Hi {{userFirstName}}</span>
-          <i class="material-icons cursor-pointer">power_settings_new</i>
+          <i class="material-icons cursor-pointer" @click="logout">power_settings_new</i>
         </div>
         <div class="flex justify-around items-center h-10">
           <router-link class="text-sm cursor-pointer" to="/home/yesterday">Yesterday</router-link>
@@ -34,12 +34,21 @@ export default {
   name: 'home',
   data:  function(){
     return{
-      userFirstName: ""
+      userFirstName: "",
+      token: ""
     }},
   mounted() {
+      this.token = localStorage.getItem("authTokenActivityTracker"); 
+      if(this.token == null){
+        console.log("is null")
+        this.$router.push({name:"login"})
+      }
+      else{
+        console.log('not null')
+      }
       const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/user/getuser';
       const auth = {
-        headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} 
+        headers: {authToken: this.token} 
       }
       this.$http.get(url,auth)
       .then(response => {
@@ -50,6 +59,10 @@ export default {
       });
   },
   methods: {
+    logout : function(){
+      localStorage.removeItem("authTokenActivityTracker");
+      this.$router.push({name:"login"})
+    }
 }}
 
 </script>
