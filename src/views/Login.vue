@@ -37,24 +37,20 @@ export default {
       message: "",
     }},
   methods:{
-    login: function (e) {
+    login: function () {
       this.message= ""
-      const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/user/login';
+      const url = process.env.VUE_APP_BASE_URL + '/user/login';
       const data = {
-        username:this.username,
-        password:this.password
+        username: this.username,
+        password: this.password
       }
-      // const auth = {
-      //   headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
-      // }
       this.$http.post(url, data)
       .then(response => {
         console.log(response);
         if(response.data.message !== 'failure')
         {
           localStorage.setItem("authTokenActivityTracker", response.data.token);
-          this.username = ""
-          this.password = ""
+          this.username = this.password = ""
 
           // both ways works
           this.$router.push('home')

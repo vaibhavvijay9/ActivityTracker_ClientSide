@@ -17,7 +17,7 @@
         <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded-full" @click="modalOpen=true">Add New Task</button>
     </div>
 
-    <!-- Add Task pop-up START-->
+    <!-- pop-up / Modal START-->
       <div v-if="modalOpen" class="fixed inset-0 invisible opacity-0 openPopUp">
         <div class="mx-auto my-48 bg-white rounded w-3/4 md:w-1/5 relative shadow-2xl">
           <div class="bg-blue-500 rounded-b-lg p-1 text-white">
@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-      <!-- Add Task pop-up END-->
+      <!-- pop-up / Modal END-->
 </div>
 </template>
 
@@ -71,14 +71,20 @@ export default {
         taskDescription: "",
         taskDate: ""
       },
-      //newTask: {},
-      currentTask: {}
+      currentTask: {},
+      token: ""
     }},
   watch : {
       '$route.params.day': function(){
           this.getTasks()
   }},
     mounted(){
+        if(localStorage.getItem("authTokenActivityTracker") == null){
+            this.$router.push({name:"login"});
+        }
+        else{
+            this.token = localStorage.getItem("authTokenActivityTracker")
+        }
         this.getTasks()
     },
     methods: {
@@ -92,14 +98,12 @@ export default {
           this.addOperation = true
       }, 
       getTasks : function(){
-        if(localStorage.getItem("authTokenActivityTracker") == null){
-            console.log("is null")
+        if(this.token == null){
             this.$router.push({name:"login"});
         }  
-        console.log(this.$route.params.day);
-        const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/gettask/' + this.$route.params.day;
+        const url = process.env.VUE_APP_BASE_URL + '/task/gettask/' + this.$route.params.day;
         const auth = {
-            headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+            headers: {authToken: this.token}
         }
         this.$http.get(url, auth)
             .then(response => {
@@ -111,46 +115,38 @@ export default {
             });
         },
         addTask : function(){
-            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/addtask';
+            if(this.token == null){
+                this.$router.push({name:"login"});
+            }
+            const url = process.env.VUE_APP_BASE_URL + '/task/addtask';
             
             const data = this.taskForm;
             
             const auth = {
-                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+                headers: {authToken: this.token}
             }
             this.modalOpen=false;
 
             this.$http.post(url, data, auth)
                 .then(response => {
                     console.log(response.data);
-                    // this.newTask= {
-                    //   taskcompleted: false,
-                    //   taskDate: this.taskForm.taskDate,
-                    //   taskDescription: this.taskForm.taskDescription, 
-                    //   taskId: "",
-                    //   username: ""
-                    // };
-                    // this.tasks.push(this.newTask);
                     this.getTasks()
-                    this.taskForm.taskDescription = "";
-                    this.taskForm.taskDate = "";
+                    this.taskForm.taskDescription = this.taskForm.taskDate = "";
                 })
                 .catch(function (error) {
                     console.log(error);
                 }); 
             },
         deleteTask : function(taskId){
-            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/deletetask/' + taskId;
+            if(this.token == null){
+                this.$router.push({name:"login"});
+            }
+            const url = process.env.VUE_APP_BASE_URL + '/task/deletetask/' + taskId;
             const auth = {
-                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+                headers: {authToken: this.token}
             }
             this.$http.delete(url, auth)
                 .then(response => {
-                    // console.log(response.data);
-                    // console.log(taskId);
-                    // console.log(taskId,this.tasks.filter(task=>task.taskId!=taskId))
-                    // this.tasks= this.tasks.filter(task=>task.taskId!==taskId)
-                    // console.log(this.tasks,taskId)
                     this.getTasks()
                 })
                 .catch(function (error) {
@@ -158,18 +154,20 @@ export default {
                 }); 
             },
         updateTask : function(){
-            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/updatetask';
+            if(this.token == null){
+                this.$router.push({name:"login"});
+            }
+            const url = process.env.VUE_APP_BASE_URL + '/task/updatetask';
             const auth = {
-                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+                headers: {authToken: this.token}
             }
             const data =  {
-                      taskId: this.currentTask.taskId,
-                      taskDescription: this.currentTask.taskDescription,
-                      taskDate: this.currentTask.taskDate,
-                      completed: false,
-                      username: ""
-                    }
-            console.log(data)
+                taskId: this.currentTask.taskId,
+                taskDescription: this.currentTask.taskDescription,
+                taskDate: this.currentTask.taskDate,
+                completed: false,
+                username: ""
+            }
             
             this.$http.put(url, data, auth)
                 .then(response => {
@@ -183,17 +181,20 @@ export default {
                 }); 
             },
         updateTaskStatus : function(task){
-            const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/task/updatetaskstatus';
+            if(this.token == null){
+                this.$router.push({name:"login"});
+            }
+            const url = process.env.VUE_APP_BASE_URL + '/task/updatetaskstatus';
             const auth = {
-                headers: {authToken:"dmFpYmhhdkBnbWFpbC5jb20yMDE5MDYyOTEzMjQzNw=="} // dummy value from db for testing
+                headers: {authToken: this.token}
             }
             const data =  {
-                      taskId: task.taskId,
-                      taskDescription: "",
-                      taskDate: "",
-                      completed: !task.completed,
-                      username: ""
-                    }
+                taskId: task.taskId,
+                taskDescription: "",
+                taskDate: "",
+                completed: !task.completed,
+                username: ""
+            }
             
             this.$http.put(url, data, auth)
                 .then(response => {

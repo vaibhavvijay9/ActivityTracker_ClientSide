@@ -40,13 +40,9 @@ export default {
   mounted() {
       this.token = localStorage.getItem("authTokenActivityTracker"); 
       if(this.token == null){
-        console.log("is null")
         this.$router.push({name:"login"})
       }
-      else{
-        console.log('not null')
-      }
-      const url = 'http://localhost:8083/ActivityTracker_ServerSide/api/user/getuser';
+      const url = process.env.VUE_APP_BASE_URL + '/user/getuser';
       const auth = {
         headers: {authToken: this.token} 
       }
