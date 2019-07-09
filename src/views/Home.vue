@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen p-5">
 
-    <div class="text-3xl text-white mb-5 font-medium">Activity Tracker</div>
+    <div class="text-3xl text-white mb-4 font-medium">Activity Tracker</div>
     
     <div class="activity-card shadow-2xl text-center bg-gray-200 m-2 md:w-1/4 md:w-1/4 md:mx-auto relative">
       

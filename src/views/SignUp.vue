@@ -20,7 +20,8 @@
         <div class="flex items-center border-b border-b-2 border-teal-500 py-1 mt-3">
           <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 leading-tight focus:outline-none" type="text" placeholder="Name" v-model="signUpForm.name" required>
         </div>
-        <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 my-6 rounded-full">Create Account</button>
+        <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 my-4 rounded-full">Create Account</button>
+        <p class="pb-2 text-left"><router-link class="text-blue-600" to="/">Login</router-link></p>
       </div>
     </form>
     </div>

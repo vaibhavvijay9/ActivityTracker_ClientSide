@@ -5,7 +5,7 @@
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
                 <input class="mr-2 leading-tight" type="checkbox" v-model=task.completed @click="updateTaskStatus(task)">
-                <span class="text-sm">{{task.taskDescription}}</span>
+                <span v-bind:class="{ active: task.completed}" class="text-sm">{{task.taskDescription}}</span>
             </label>
             <span>
                 <a @click="openEditModal(task)"><i class="material-icons cursor-pointer text-blue-600">edit</i></a>
@@ -58,6 +58,13 @@
       <!-- pop-up / Modal END-->
 </div>
 </template>
+
+<style>
+.active{
+    text-decoration: line-through !important;
+}
+</style>
+
 
 <script>
 export default {
