@@ -52,11 +52,10 @@ export default {
           localStorage.setItem("authTokenActivityTracker", response.data.token);
           this.username = this.password = ""
 
-          // both ways works
-          this.$router.push('home')
-          // this.$router.push({path: '/home'});
-          
-          //this.$router.push({name:"home"})      // this does not works here 
+          // all ways works
+          //this.$router.push('home')
+           this.$router.push({path: '/home'});
+          //this.$router.push({name:"home"}) 
         }
         else{
           this.message = "Wrong username or password!!"

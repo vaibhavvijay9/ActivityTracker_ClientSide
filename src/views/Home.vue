@@ -34,6 +34,7 @@ export default {
   name: 'home',
   data:  function(){
     return{
+      userName: "",
       userFirstName: "",
       token: ""
     }},
@@ -48,16 +49,31 @@ export default {
       }
       this.$http.get(url,auth)
       .then(response => {
+        this.userName = response.data.username
         this.userFirstName = response.data.name.split(" ")[0]
       })
-      .catch(function (error) {
+      .catch(error => {
+          if(error.response.status == '401'){
+            localStorage.removeItem("authTokenActivityTracker");
+            this.$router.push({name:"login"});
+          }
           console.log(error);
       });
   },
   methods: {
     logout : function(){
-      localStorage.removeItem("authTokenActivityTracker");
-      this.$router.push({name:"login"})
+      const url = process.env.VUE_APP_BASE_URL + '/user/logOut';
+            
+      const data = {username: this.userName}
+
+      this.$http.post(url, data)
+      .then(response => {
+        localStorage.removeItem("authTokenActivityTracker");
+        this.$router.push({name:"login"})
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
     }
 }}
 

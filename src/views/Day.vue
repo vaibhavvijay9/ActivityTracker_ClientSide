@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="m-2 overflow-auto h-64">
+    <div class="m-2 overflow-auto tasks-list">
         <p class="text-xs font-medium">You have <span class="text-blue-600">{{tasks.length}} task:</span></p>
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
@@ -13,7 +13,7 @@
             </span>
         </div>
     </div>
-    <div class="absolute bottom-0 mb-16 ml-16">
+    <div class="sticky">
         <button class="w-48 bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded-full" @click="modalOpen=true">Add New Task</button>
     </div>
 
@@ -60,11 +60,13 @@
 </template>
 
 <style>
+.tasks-list{
+    height: 55vh;
+}
 .active{
     text-decoration: line-through !important;
 }
 </style>
-
 
 <script>
 export default {
@@ -117,7 +119,10 @@ export default {
                 console.log(response.data)
                 this.tasks = response.data;
             })
-            .catch(function (error) {
+            .catch(error => {
+                if(error.response.status == '401'){
+                    this.removeTokenAndRedirect()
+                }
                 console.log(error);
             });
         },
@@ -140,7 +145,10 @@ export default {
                     this.getTasks()
                     this.taskForm.taskDescription = this.taskForm.taskDate = "";
                 })
-                .catch(function (error) {
+                .catch(error => {
+                    if(error.response.status == '401'){
+                        this.removeTokenAndRedirect()
+                    }
                     console.log(error);
                 }); 
             },
@@ -156,7 +164,10 @@ export default {
                 .then(response => {
                     this.getTasks()
                 })
-                .catch(function (error) {
+                .catch(error => {
+                    if(error.response.status == '401'){
+                        this.removeTokenAndRedirect()
+                    }
                     console.log(error);
                 }); 
             },
@@ -183,7 +194,10 @@ export default {
                     this.addOperation = true;
                     this.getTasks()
                 })
-                .catch(function (error) {
+                .catch(error => {
+                    if(error.response.status == '401'){
+                        this.removeTokenAndRedirect()
+                    }
                     console.log(error);
                 }); 
             },
@@ -207,9 +221,17 @@ export default {
                 .then(response => {
                     console.log(response.data);
                 })
-                .catch(function (error) {
+                .catch(error => {
+                    // if unauthorised, means set a valid token in localStorage and hit the url, though that user is already logged out and not present in db table.
+                    if(error.response.status == '401'){
+                        this.removeTokenAndRedirect()
+                    }
                     console.log(error);
                 });
+        },
+        removeTokenAndRedirect : function(){
+            localStorage.removeItem("authTokenActivityTracker");
+            this.$router.push({name:"login"});
         }
     }
 }

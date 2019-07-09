@@ -17,10 +17,10 @@ export default new Router({
     }, {
         path: '/home',
         //redirect: 'home/today',   // this also works, comment the first element in the children array
-        name: 'home',
+        //name: 'home',
         component: () =>
             import ('./views/Home.vue'),
-        children: [{ path: '/', redirect: 'today' } /* DO NOT write (slash) '/today' */ , { path: ':day', name: 'day', component: Day }]
+        children: [{ path: '/', name: 'home', redirect: 'today' } /* DO NOT write (slash) '/today' */ , { path: ':day', name: 'day', component: Day }]
 
     }]
 })
