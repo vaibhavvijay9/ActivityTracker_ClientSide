@@ -112,7 +112,7 @@ export default {
         }  
         const url = process.env.VUE_APP_BASE_URL + '/task/gettask/' + this.$route.params.day;
         const auth = {
-            headers: {authToken: this.token, 'content-type': 'application/json'}
+            headers: {authToken: this.token}
         }
         this.$http.get(url, auth)
             .then(response => {

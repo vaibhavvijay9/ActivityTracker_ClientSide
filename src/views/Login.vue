@@ -40,14 +40,12 @@ export default {
     login: function () {
       this.message= ""
       const url = process.env.VUE_APP_BASE_URL + '/user/login';
-      const auth = {
-        headers: {'content-type': 'application/json'} 
-      }
+      
       const data = {
         username: this.username,
         password: this.password
       }
-      this.$http.post(url, data, auth)
+      this.$http.post(url, data)
       .then(response => {
         if(response.data.message !== 'failure')
         {
