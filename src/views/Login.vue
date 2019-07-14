@@ -40,13 +40,15 @@ export default {
     login: function () {
       this.message= ""
       const url = process.env.VUE_APP_BASE_URL + '/user/login';
+      const auth = {
+        headers: {'Content-Type': 'application/json'} 
+      }
       const data = {
         username: this.username,
         password: this.password
       }
-      this.$http.post(url, data)
+      this.$http.post(url, data, auth)
       .then(response => {
-        console.log(response);
         if(response.data.message !== 'failure')
         {
           localStorage.setItem("authTokenActivityTracker", response.data.token);

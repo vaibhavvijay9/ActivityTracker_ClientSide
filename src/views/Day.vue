@@ -116,7 +116,6 @@ export default {
         }
         this.$http.get(url, auth)
             .then(response => {
-                console.log(response.data)
                 this.tasks = response.data;
             })
             .catch(error => {
@@ -141,7 +140,6 @@ export default {
 
             this.$http.post(url, data, auth)
                 .then(response => {
-                    console.log(response.data);
                     this.getTasks()
                     this.taskForm.taskDescription = this.taskForm.taskDate = "";
                 })
@@ -189,7 +187,6 @@ export default {
             
             this.$http.put(url, data, auth)
                 .then(response => {
-                    console.log(response.data);
                     this.modalOpen = false;
                     this.addOperation = true;
                     this.getTasks()
@@ -219,7 +216,6 @@ export default {
             
             this.$http.put(url, data, auth)
                 .then(response => {
-                    console.log(response.data);
                 })
                 .catch(error => {
                     // if unauthorised, means set a valid token in localStorage and hit the url, though that user is already logged out and not present in db table.
