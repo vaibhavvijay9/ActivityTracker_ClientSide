@@ -41,7 +41,7 @@ export default {
       this.message= ""
       const url = process.env.VUE_APP_BASE_URL + '/user/login';
       const auth = {
-        headers: {'Content-Type': 'application/json'} 
+        headers: {'content-type': 'application/json'} 
       }
       const data = {
         username: this.username,

@@ -45,7 +45,7 @@ export default {
       }
       const url = process.env.VUE_APP_BASE_URL + '/user/getuser';
       const auth = {
-        headers: {authToken: this.token} 
+        headers: {authToken: this.token, 'content-type': 'application/json'} 
       }
       this.$http.get(url,auth)
       .then(response => {
