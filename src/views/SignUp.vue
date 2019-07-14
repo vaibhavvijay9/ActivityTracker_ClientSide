@@ -12,7 +12,7 @@
       <form @submit="signUp">
       <div class="">
         <div class="flex items-center border-b border-b-2 border-teal-500 py-1 mt-3">
-          <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 leading-tight focus:outline-none" type="text" placeholder="User Name" v-model="signUpForm.username" required>
+          <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 leading-tight focus:outline-none" type="text" placeholder="User Name" v-model="signUpForm.username" required pattern="[a-zA-Z0-9]+" title="Only digits and alphabets are allowed.">
         </div>
         <div class="flex items-center border-b border-b-2 border-teal-500 py-1 mt-3">
           <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 leading-tight focus:outline-none" type="password" placeholder="Password" v-model="signUpForm.password" required>
@@ -44,7 +44,10 @@ export default {
   methods:{
     signUp: function () {
       const url = process.env.VUE_APP_BASE_URL + '/user/signUp';
-            
+
+      this.signUpForm.username = this.signUpForm.username.toLowerCase();
+      this.signUpForm.name = this.titleCase(this.signUpForm.name);      
+      
       const data = this.signUpForm;
 
       this.$http.post(url, data)
@@ -64,6 +67,11 @@ export default {
       .catch(function (error) {
           console.log(error);
       });
+    },
+    titleCase: function(str) {
+      return str.toLowerCase().split(' ').map(function(word) {
+        return (word.charAt(0).toUpperCase() + word.slice(1));
+      }).join(' ');
     }
   }
 }
