@@ -4,7 +4,10 @@
     <div class="text-3xl text-white mb-4 font-medium">Activity Tracker</div>
     
     <div class="activity-card shadow-2xl text-center bg-gray-200 m-2 md:w-1/4 md:w-1/4 md:mx-auto relative">
-      
+      <div v-if="loading">
+          <Loader></Loader>
+      </div>
+
       <div class="bg-blue-500 rounded-b-lg p-1 text-white">
         <div class="flex justify-between items-center text-xl px-2 h-8">
           <span>Hi {{userFirstName}}</span>
@@ -30,13 +33,19 @@
 
 </template>
 <script>
+import Loader from '../components/Loader.vue'
+
 export default {
   name: 'home',
+  components: {
+    Loader
+  },
   data:  function(){
     return{
       userName: "",
       userFirstName: "",
-      token: ""
+      token: "",
+      loading: false
     }},
   mounted() {
       this.token = localStorage.getItem("authTokenActivityTracker"); 
@@ -62,16 +71,19 @@ export default {
   },
   methods: {
     logout : function(){
+      this.loading = true;
       const url = process.env.VUE_APP_BASE_URL + '/user/logOut';
             
       const data = {username: this.userName}
 
       this.$http.post(url, data)
       .then(response => {
+        this.loading = false;
         localStorage.removeItem("authTokenActivityTracker");
         this.$router.push({name:"login"})
       })
       .catch(function (error) {
+          this.loading = false;
           console.log(error);
       });
     }

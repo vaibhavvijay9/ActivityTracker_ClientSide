@@ -3,7 +3,8 @@
     <div class="m-2 overflow-auto tasks-list">
         <div v-if="loading">
             <Loader></Loader>
-        </div> 
+        </div>
+         
         <p class="text-xs font-medium">You have <span class="text-blue-600">{{tasks.length}} task:</span></p>
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
@@ -141,6 +142,9 @@ export default {
             if(this.token == null){
                 this.$router.push({name:"login"});
             }
+
+            this.loading = true;
+
             const url = process.env.VUE_APP_BASE_URL + '/task/addtask';
             
             const data = this.taskForm;
@@ -152,10 +156,12 @@ export default {
 
             this.$http.post(url, data, auth)
                 .then(response => {
+                    this.loading = false;
                     this.getTasks()
                     this.taskForm.taskDescription = this.taskForm.taskDate = "";
                 })
                 .catch(error => {
+                    this.loading = false;
                     if(error.response.status == '401'){
                         this.removeTokenAndRedirect()
                     }
@@ -166,15 +172,20 @@ export default {
             if(this.token == null){
                 this.$router.push({name:"login"});
             }
+
+            this.loading = true;
+
             const url = process.env.VUE_APP_BASE_URL + '/task/deletetask/' + taskId;
             const auth = {
                 headers: {authToken: this.token}
             }
             this.$http.delete(url, auth)
                 .then(response => {
+                    this.loading = false;
                     this.getTasks()
                 })
                 .catch(error => {
+                    this.loading = false;
                     if(error.response.status == '401'){
                         this.removeTokenAndRedirect()
                     }
@@ -185,6 +196,9 @@ export default {
             if(this.token == null){
                 this.$router.push({name:"login"});
             }
+
+            this.loading = true;
+
             const url = process.env.VUE_APP_BASE_URL + '/task/updatetask';
             const auth = {
                 headers: {authToken: this.token}
@@ -199,11 +213,13 @@ export default {
             
             this.$http.put(url, data, auth)
                 .then(response => {
+                    this.loading = false;
                     this.modalOpen = false;
                     this.addOperation = true;
                     this.getTasks()
                 })
                 .catch(error => {
+                    this.loading = false;
                     if(error.response.status == '401'){
                         this.removeTokenAndRedirect()
                     }

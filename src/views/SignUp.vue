@@ -4,6 +4,10 @@
     <div class="text-3xl text-white mb-5 font-medium">Activity Tracker</div>
     
     <div class="shadow-2xl pt-5 px-8 m-2 mt-12 text-center bg-white md:w-1/4 md:mx-auto">
+      <div v-if="loading">
+          <Loader></Loader>
+      </div>
+      
       <div v-if="signUpMessage" class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-3 m-1" role="alert">
         <p>{{signUpMessage}}</p>
       </div>
@@ -30,8 +34,13 @@
 </template>
 
 <script>
+import Loader from '../components/Loader.vue'
+
 export default {
   name: 'signUp',
+  components: {
+    Loader
+  },
   data:  function(){
     return{
       signUpForm: { 
@@ -39,10 +48,12 @@ export default {
         password: "",
         name: ""
       },
-      signUpMessage: ""
+      signUpMessage: "",
+      loading: false
     }},
   methods:{
     signUp: function () {
+      this.loading = true;
       const url = process.env.VUE_APP_BASE_URL + '/user/signUp';
 
       this.signUpForm.username = this.signUpForm.username.toLowerCase();
@@ -52,6 +63,7 @@ export default {
 
       this.$http.post(url, data)
       .then(response => {
+        this.loading = false;
         // 0 - Failed,  1 - Success,  2 - Success, but user already exists
         if(response.data == 0){
             this.signUpMessage =  "SignUp failed!!"
@@ -65,6 +77,7 @@ export default {
         this.signUpForm.username = this.signUpForm.password = this.signUpForm.name = "";
       })
       .catch(function (error) {
+          this.loading = false;
           console.log(error);
       });
     },
