@@ -1,5 +1,7 @@
 <template>
-    <div class="loader fixed inset-0 m-auto z-10"></div>
+    <div class="overlay">
+        <div class="loader fixed inset-0 m-auto"></div>
+    </div>
 </template>
 
 <script>
@@ -9,6 +11,16 @@ export default {
 </script>
 
 <style>
+.overlay{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.5);
+}
+
 .loader {  
   border: 10px solid #dddddd;
   border-radius: 50%;
