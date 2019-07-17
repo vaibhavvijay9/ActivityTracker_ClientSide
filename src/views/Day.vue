@@ -1,6 +1,9 @@
 <template>
 <div>
     <div class="m-2 overflow-auto tasks-list">
+        <div v-if="loading">
+            <Loader></Loader>
+        </div> 
         <p class="text-xs font-medium">You have <span class="text-blue-600">{{tasks.length}} task:</span></p>
         <div v-for="task of tasks" :key='task.id' class="bg-white m-2 p-2 rounded-lg text-left flex justify-between items-center">
             <label class="block">
@@ -69,8 +72,13 @@
 </style>
 
 <script>
+import Loader from '../components/Loader.vue'
+
 export default {
   name: 'Day',
+  components: {
+    Loader
+  },
   data:  function(){
     return{
       modalOpen: false,
@@ -81,7 +89,8 @@ export default {
         taskDate: ""
       },
       currentTask: {},
-      token: ""
+      token: "",
+      loading: false
     }},
   watch : {
       '$route.params.day': function(){
@@ -107,6 +116,7 @@ export default {
           this.addOperation = true
       }, 
       getTasks : function(){
+        this.loading = true;
         if(this.token == null){
             this.$router.push({name:"login"});
         }  
@@ -117,12 +127,14 @@ export default {
         this.$http.get(url, auth)
             .then(response => {
                 this.tasks = response.data;
+                this.loading = false;
             })
             .catch(error => {
                 if(error.response.status == '401'){
                     this.removeTokenAndRedirect()
                 }
                 console.log(error);
+                this.loading = false;
             });
         },
         addTask : function(){
