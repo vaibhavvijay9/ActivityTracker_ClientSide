@@ -13,7 +13,7 @@
       </div>
 
       <p class="text-2xl font-medium">SignUp</p>
-      <form @submit="signUp">
+      <form @submit.prevent="signUp">
       <div class="">
         <div class="flex items-center border-b border-b-2 border-teal-500 py-1 mt-3">
           <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 leading-tight focus:outline-none" type="text" placeholder="User Name" v-model="signUpForm.username" required pattern="[a-zA-Z0-9]+" title="Only digits and alphabets are allowed.">
